@@ -2,28 +2,19 @@ public class MutiThread {
 
     public static void main(String[] args) {
         PrintABC printABC = new PrintABC();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for(int i = 0; i < 2; i++) {
-                    printABC.printA();
-                }
+        new Thread(() -> {
+            for(int i = 0; i < 2; i++) {
+                printABC.printA();
             }
         }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for(int i = 0; i < 2; i++) {
-                    printABC.printB();
-                }
+        new Thread(() -> {
+            for(int i = 0; i < 2; i++) {
+                printABC.printB();
             }
         }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for(int i = 0; i < 2; i++) {
-                    printABC.printC();
-                }
+        new Thread(() -> {
+            for(int i = 0; i < 2; i++) {
+                printABC.printC();
             }
         }).start();
     }
