@@ -8,7 +8,6 @@ public class heapSort {
         heapSort(arr);
         System.out.println(Arrays.toString(arr));
     }
-
     public static void heapSort(int []arr){
         //1.构建大顶堆
         for(int i = arr.length/2-1; i >= 0; i--) {
@@ -19,8 +18,6 @@ public class heapSort {
             adjustHeap(arr, 0, i);
         }
     }
-
-
     public static void adjustHeap(int []arr,int i,int length){
         int tmp = arr[i];
         for(int k = 2*i+1; k < length; k = 2*k+1) {
@@ -34,8 +31,6 @@ public class heapSort {
         }
         arr[i] = tmp;
     }
-
-
     public static void swap(int []arr,int a ,int b){
         int temp=arr[a];
         arr[a] = arr[b];

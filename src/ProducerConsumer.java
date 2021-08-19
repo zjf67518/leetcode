@@ -18,14 +18,10 @@ class produce implements Runnable {
     }
     @Override
     public void run() {
-        try {
-            for(int i = 0; i < 100; i++) {
-                Thread.sleep(100);
-                bq.offer(i);
-                System.out.println(Thread.currentThread().getName() + "produce: " + i);
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        for(int i = 0; i < 10; i++) {
+            //Thread.sleep(100);
+            bq.offer(i);
+            System.out.println(Thread.currentThread().getName() + "produce: " + i);
         }
     }
 }
@@ -38,7 +34,7 @@ class consume implements Runnable {
     public void run() {
         try {
             while(true) {
-                Thread.sleep(310);
+                //Thread.sleep(310);
                 int tmp = bq.take();
                 System.out.println(Thread.currentThread().getName() + "consume: " + tmp);
             }

@@ -1,43 +1,58 @@
-// # 手上有 n 朵花，每朵的花瓣数保存在一个数组中。我们每次可以选择任意一朵，拿走其中的一瓣或者两瓣，求掰完所有花的最少次数。
-
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.BlockingQueue;
 
-public class Try{
+public class Try {
     public static void main(String[] args) {
-        new ThreadPoolExecutor(50, 30, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<>(100));
+        BlockingQueue<Integer> bq = new ArrayBlockingQueue<>(10);
+        new Thread(new Producer123(bq), "producer1").start();
+        //new Thread(new Produce(bq), "producer2").start();
+        new Thread(new Comsume(bq, 0), "comsume1").start();
+        new Thread(new Comsume(bq, 1), "comsume2").start();
+    }
+}
 
-        System.out.println(solve("1", "99"));
+class Producer123 implements Runnable{
+    private BlockingQueue<Integer> bq;
+
+    public Producer123(BlockingQueue<Integer> bq){
+        this.bq = bq;
     }
 
-    public static String solve (String s, String t) {
-        int len1 = s.length();
-        int len2 = t.length();
-        int flag = 0;
-        StringBuilder sb = new StringBuilder();
-        int value = 0;
-        while(len1 > 0 || len2 > 0) {
-            int l = len1 > 0 ? Integer.valueOf(s.charAt(len1-1)) : 0;
-            int r = len2 > 0 ? Integer.valueOf(t.charAt(len2-1)) : 0;
-            if(flag == 1) {
-                value = l+r+1;
-            } else {
-                value = l+r;
+    @Override
+    public void run() {
+        for (int i = 1; i <= 100; i++) {
+            try {
+                Thread.sleep(100);
+                bq.put(i);
+                System.out.println(Thread.currentThread().getName()+ "produce" + i);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            if(value >= 10) {
-                flag = 1;
-                value -= 10;
-            } else {
-                flag = 0;
+        }
+    }
+}
+
+class Comsume implements Runnable{
+    private BlockingQueue<Integer> bq;
+    private int target;
+    public Comsume(BlockingQueue<Integer> bq, int val){
+        this.bq = bq;
+        this.target = val;
+    }
+
+    @Override
+    public void run() {
+        while(true) {
+            try {
+                Thread.sleep(50);
+                if (bq.isEmpty() || bq.peek() % 2 != target) {
+                    continue;
+                }
+                int val = bq.take();
+                System.out.println(Thread.currentThread().getName() + "comsume" + val);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            len1--;
-            len2--;
-            sb.insert(0, value);
         }
-        if(flag == 1) {
-            sb.insert(0, 1);
-        }
-        return sb.toString();
     }
 }
