@@ -12,7 +12,9 @@ public class juc {
 }
 class consumer implements Runnable{
     private BlockingQueue<Integer> queue;
-    public consumer(BlockingQueue<Integer> queue){this.queue = queue;}
+    public consumer(BlockingQueue<Integer> queue){
+        this.queue = queue;
+    }
 
     @Override
     public void run() {
@@ -28,8 +30,10 @@ class consumer implements Runnable{
     }
 }
 class producer implements Runnable{
-private BlockingQueue<Integer> queue;
-public producer(BlockingQueue<Integer> queue){this.queue = queue;}
+    private BlockingQueue<Integer> queue;
+    public producer(BlockingQueue<Integer> queue){
+        this.queue = queue;
+    }
     @Override
     public void run() {
         try {
