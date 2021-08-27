@@ -19,7 +19,11 @@ class produce implements Runnable {
     @Override
     public void run() {
         for(int i = 0; i < 10; i++) {
-            //Thread.sleep(100);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             bq.offer(i);
             System.out.println(Thread.currentThread().getName() + "produce: " + i);
         }
